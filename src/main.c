@@ -22,5 +22,7 @@ int main(int argc, char *argv[]) {
   int pop = popcnt_while(quox);
   printf("quox: %d\n", pop);
 
+  printf("Made a change in main.c\n");
+
   return 0;
 }
