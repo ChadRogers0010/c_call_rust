@@ -1,14 +1,15 @@
 target = native
 
-FILES = $(shell find -name "*.c")
-SKEWER = $(subst /,-, $(FILES))
-OBJS = $(patsubst .-%,build/%,$(SKEWER))
+# I'm struggling with this part of the Makefile. 
+# I want to take every *.c file in src/,
+# turn its path into snake case, 
+# and then make an object file in the build/ directory.
+# So src/foo/math.c would become build/foo-math.o
+# gcc -c src/foo/math.c -o build/foo-math.o
 
-# print: 
-# 	@echo $(FILES)
-# 	@echo $(SKEWER)
-# 	@echo $(OBJS)
-
+FILES  = $(shell find ./src -name "*.c" )
+OBJS   = $(subst /,_, $(FILES))
+OBJS  := $(patsubst ._src_%,build/%,$(OBJS))
 
 run: rust_header c_program 
 	./c_program
@@ -30,6 +31,9 @@ rust_header: ./rust/src/
 build/release/librust.a: ./rust/src/
 	@RUSTFLAGS="-Ctarget-cpu=$(target)" cargo build --release --manifest-path ./rust/Cargo.toml --target-dir ./build/
 
+print: 
+	@echo $(FILES)
+	@echo $(OBJS)
 
 .PHONY: clean
 clean:
