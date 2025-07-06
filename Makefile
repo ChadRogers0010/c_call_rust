@@ -1,6 +1,9 @@
 # https://makefiletutorial.com/#makefile-cookbook
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
+
+# Name of program
 TARGET_EXEC := program
+# Platform to compile for
 COMPILATION_TARGET := native
 
 BUILD_DIR := ./build
@@ -35,7 +38,7 @@ RUST_DIR := ./rust
 RUST_SRC := $(RUST_DIR)/src
 RUST_TOML := $(RUST_DIR)/Cargo.toml
 RUST_HEADER := ./include/rust.h
-RUST_ARTIFACT := ./build/release/librust.a
+RUST_ARTIFACT := $(BUILD_DIR)/release/librust.a
 RUST_FLAGS := --release
 
 build: $(BUILD_DIR)/$(TARGET_EXEC) 
