@@ -28,6 +28,11 @@ pub extern "C" fn get_num() -> i32 {
     5
 }
 
+#[unsafe(no_mangle)]
+pub extern "C" fn get_num_more() -> i32 {
+    5
+}
+
 pub const WOW: u32 = 69;
 
 pub const FIB_LEN: usize = get_fib_len();
