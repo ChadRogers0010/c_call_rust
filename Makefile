@@ -27,14 +27,16 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 # These files will have .d instead of .o as the output.
 CPPFLAGS := $(INC_FLAGS) -MMD -MP -O3 -march=$(COMPILATION_TARGET)
 
+# C/++ compilers
+CC  := gcc
+CXX := g++
+
 RUST_DIR := ./rust
 RUST_SRC := $(RUST_DIR)/src
 RUST_TOML := $(RUST_DIR)/Cargo.toml
 RUST_HEADER := ./include/rust.h
 RUST_ARTIFACT := ./build/release/librust.a
-
-CC  := gcc
-CXX := g++
+RUST_FLAGS := --release
 
 build: $(BUILD_DIR)/$(TARGET_EXEC) 
 
@@ -49,24 +51,22 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(RUST_HEADER) $(RUST_ARTIFACT) $(OBJS)
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS)-c $< -o $@
-	@echo $@
 
 # Build step for C++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS)-c $< -o $@
 
-
 # Build step for Rust header
 $(RUST_HEADER): $(RUST_SRC)
 	@mkdir -p $(INCLUDE_DIR) $(BUILD_DIR)
-	@cargo test -q --manifest-path $(RUST_TOML) #> build/test_rust.txt
+	cargo test -q $(RUST_FLAGS) --manifest-path $(RUST_TOML)
 	cbindgen -l c $(RUST_DIR) > $(RUST_HEADER)
 
 # Build step for Rust source
 $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
 	@mkdir -p $(BUILD_DIR)
-	@RUSTFLAGS="-Ctarget-cpu=$(COMPILATION_TARGET)" cargo build --release --manifest-path $(RUST_TOML) --target-dir $(BUILD_DIR)
+	RUSTFLAGS="-Ctarget-cpu=$(COMPILATION_TARGET)" cargo build $(RUST_FLAGS) --manifest-path $(RUST_TOML) --target-dir $(BUILD_DIR)
 
 # Generate header for librust.a
 .PHONY: rust.h
