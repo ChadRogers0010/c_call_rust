@@ -1,4 +1,6 @@
+#include "../include/other.h"
 #include "../include/rust.h"
+#include <stdint.h>
 #include <stdio.h>
 int main(int argc, char *argv[]) {
   printf("Hello from the C main()!\n");
@@ -9,5 +11,6 @@ int main(int argc, char *argv[]) {
     printf("fib %d: %d\n", i, FIB_TABLE[i]);
   }
 
+  other_test();
   return 0;
 }
