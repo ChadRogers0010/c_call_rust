@@ -1,3 +1,4 @@
+/// Prints a hello world with std::println!()
 #[unsafe(no_mangle)]
 pub extern "C" fn hello_rust() {
     println!("Hello from the Rust lib!");
