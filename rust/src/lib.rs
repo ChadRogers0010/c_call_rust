@@ -1,3 +1,8 @@
+#[unsafe(no_mangle)]
+pub extern "C" fn hello_rust() {
+    println!("Hello from the Rust lib!");
+}
+
 /// For a u32 the of fibonacci elements is 47
 const fn fib_len() -> usize {
     let mut a = 0;

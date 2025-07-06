@@ -1,7 +1,8 @@
 #include "../include/rust.h"
 #include <stdio.h>
 int main(int argc, char *argv[]) {
-  printf("In main\n");
+  printf("Hello from the C main()!\n");
+  hello_rust();
   int idx = 7;
   int fib = fib_get(7);
   printf("fib_get(%d) -> %d\n", idx, fib);
