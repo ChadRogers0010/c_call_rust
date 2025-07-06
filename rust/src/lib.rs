@@ -20,6 +20,7 @@ const fn make_fib_table() -> [u32; fib_len()] {
     }
     arr
 }
+
 /// An array of uint32_t fibonacci values
 /// going from f(0) to f(46)
 #[unsafe(no_mangle)]
