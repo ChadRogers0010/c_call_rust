@@ -1,9 +1,17 @@
-/// Number of fibonacci values
-/// that fit in uint32_t
-pub const FIB_LEN: usize = 47;
+const fn fib_len() -> usize {
+    let mut a = 0;
+    let mut b = 1;
+    let mut len = 1;
+    while let Some(c) = u32::checked_add(a, b) {
+        a = b;
+        b = c;
+        len += 1;
+    }
+    len
+}
 
-const fn make_fib_table() -> [u32; 47] {
-    let mut arr = [0; 47];
+const fn make_fib_table() -> [u32; fib_len()] {
+    let mut arr = [0; fib_len()];
     arr[1] = 1;
     let mut idx = 2;
     while idx < arr.len() {
@@ -17,8 +25,8 @@ const fn make_fib_table() -> [u32; 47] {
 #[unsafe(no_mangle)]
 pub static FIB_TABLE: [u32; 47] = make_fib_table();
 
-/// Reads a lookup table for the values between 0 and 46.
-/// Going over 46 returns zero.
+/// Reads a lookup table for the values
+/// between 0 and 46. Going over 46 returns zero.
 #[unsafe(no_mangle)]
 pub const extern "C" fn fib_get(n: u8) -> u32 {
     let n = n as usize;
@@ -30,7 +38,7 @@ pub const extern "C" fn fib_get(n: u8) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::{FIB_LEN, fib_get};
+    use crate::{FIB_TABLE, fib_get};
 
     #[test]
     fn fib_get_test() {
@@ -42,15 +50,9 @@ mod tests {
     }
 
     #[test]
-    fn fib_max_len() {
-        let mut a = 0;
-        let mut b = 1;
-        let mut len = 1;
-        while let Some(c) = u32::checked_add(a, b) {
-            a = b;
-            b = c;
-            len += 1;
-        }
-        let _: () = assert!(len == FIB_LEN);
+    fn fib_table_test() {
+        assert!(FIB_TABLE[7] == 13);
+
+        assert!(FIB_TABLE.get(47).is_none());
     }
 }
