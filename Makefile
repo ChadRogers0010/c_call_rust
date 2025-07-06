@@ -9,8 +9,8 @@ TARGET_EXEC := program
 # Platform to compile for
 COMPILATION_TARGET := native
 
-SRC_DIRS  	:= ./src
-BUILD_DIR 	:= ./build
+SRC_DIRS    := ./src
+BUILD_DIR   := ./build
 INCLUDE_DIR := ./include
 
 # Find all the C and C++ files we want to compile
