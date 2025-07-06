@@ -1,6 +1,6 @@
 # https://makefiletutorial.com/#makefile-cookbook
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
-TARGET_EXEC := final_program
+TARGET_EXEC := program
 COMPILATION_TARGET := native
 
 BUILD_DIR := ./build
@@ -33,10 +33,10 @@ RUST_TOML := $(RUST_DIR)/Cargo.toml
 RUST_HEADER := ./include/rust.h
 RUST_ARTIFACT := ./build/release/librust.a
 
-
-
 CC  := gcc
 CXX := g++
+
+build: $(BUILD_DIR)/$(TARGET_EXEC) 
 
 run: $(BUILD_DIR)/$(TARGET_EXEC)
 	./$<
@@ -68,9 +68,9 @@ $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
 	@mkdir -p $(BUILD_DIR)
 	@RUSTFLAGS="-Ctarget-cpu=$(COMPILATION_TARGET)" cargo build --release --manifest-path $(RUST_TOML) --target-dir $(BUILD_DIR)
 
+# Generate header for librust.a
 .PHONY: rust.h
 rust.h: $(RUST_HEADER)
-
 
 .PHONY: clean
 clean:
