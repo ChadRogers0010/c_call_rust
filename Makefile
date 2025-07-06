@@ -1,6 +1,9 @@
 # https://makefiletutorial.com/#makefile-cookbook
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
 
+# Requires Cargo and Cbindgen to be installed
+# Uses 'find' shell command
+
 # Name of program
 TARGET_EXEC := program
 # Platform to compile for
