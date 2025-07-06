@@ -1,42 +1,4 @@
-pub mod bitwise_stuff;
-pub mod more_constants;
-
-#[unsafe(no_mangle)]
-pub extern "C" fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-/// (a * a) + (b * b)
-#[unsafe(no_mangle)]
-pub extern "C" fn sum_squares(a: i32, b: i32) -> i32 {
-    a * a + b * b
-}
-
-#[unsafe(no_mangle)]
-pub extern "C" fn sum_array(array: *const i32, len: usize) -> i32 {
-    let mut acc = 0;
-    for i in 0..len {
-        unsafe {
-            acc += *(array.add(i));
-        }
-    }
-    acc
-}
-
-#[unsafe(no_mangle)]
-pub extern "C" fn get_num() -> i32 {
-    5
-}
-
-#[unsafe(no_mangle)]
-pub extern "C" fn get_num_more() -> i32 {
-    5
-}
-
-pub const WOW: u32 = 69;
-
-pub const FIB_LEN: usize = get_fib_len();
-pub const fn get_fib_len() -> usize {
+const fn get_fib_len() -> usize {
     let mut a = 0;
     let mut b = 1;
     let mut len = 1;
@@ -47,6 +9,7 @@ pub const fn get_fib_len() -> usize {
     }
     len
 }
+pub const FIB_LEN: usize = get_fib_len();
 
 const fn make_fib_table() -> [u32; FIB_LEN] {
     let mut arr = [0; FIB_LEN];
@@ -58,8 +21,7 @@ const fn make_fib_table() -> [u32; FIB_LEN] {
     }
     arr
 }
-
-pub const FIB_TABLE: [u32; 47] = make_fib_table();
+pub const FIB_TABLE: [u32; FIB_LEN] = make_fib_table();
 
 /// Reads a lookup table for the values between 0 and 46.
 /// Going over 46 returns zero.
@@ -72,41 +34,18 @@ pub const extern "C" fn fib_get(n: u8) -> u32 {
     FIB_TABLE[n]
 }
 
-// pub const FACTORIAL_LEN: usize = {
-//     let mut n = 2;
-//     let mut acc = 1;
-//     while let Some(product) = u32::checked_mul(n, acc) {
-//         acc = product;
-//         n += 1;
-//     }
-//     n as usize
-// };
-//
-// pub const FACTORIAL_TABLE: [u64; FACTORIAL_LEN] = {
-//     let mut arr = [1u64; FACTORIAL_LEN];
-//     let mut idx = 1;
-//     while idx < arr.len() {
-//         arr[idx] = arr[idx - 1] * idx as u64;
-//         idx += 1;
-//     }
-//     arr
-// };
+#[unsafe(no_mangle)]
+pub const extern "C" fn double_num(n: u32) -> u32 {
+    n * 2
+}
 
 #[cfg(test)]
 mod tests {
-    use crate::bitwise_stuff::popcnt_while;
-
-    use super::*;
+    use crate::fib_get;
 
     #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-
-    #[test]
-    fn popcnt_test() {
-        let seven = 7;
-        assert!(popcnt_while(seven) == 3);
+    fn fib_get_test() {
+        let fib_num = fib_get(7);
+        assert!(fib_num == 13);
     }
 }
