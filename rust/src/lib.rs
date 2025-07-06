@@ -23,6 +23,11 @@ pub extern "C" fn sum_array(array: *const i32, len: usize) -> i32 {
     acc
 }
 
+#[unsafe(no_mangle)]
+pub extern "C" fn get_num() -> i32 {
+    5
+}
+
 pub const WOW: u32 = 69;
 
 pub const FIB_LEN: usize = get_fib_len();

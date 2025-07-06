@@ -1,10 +1,10 @@
 # https://makefiletutorial.com/#makefile-cookbook
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
 TARGET_EXEC := final_program
-TARGET := native
+COMPILATION_TARGET := native
 
 BUILD_DIR := ./build
-SRC_DIRS := ./src
+SRC_DIRS  := ./src
 
 # Find all the C and C++ files we want to compile
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
@@ -40,10 +40,13 @@ RUST_ARTIFACT := ./build/release/librust.a
 CC  := gcc
 CXX := g++
 
+run: $(BUILD_DIR)/$(TARGET_EXEC)
+	./$<
+
 # The final build step.
 $(BUILD_DIR)/$(TARGET_EXEC): $(RUST_HEADER) $(RUST_ARTIFACT) $(OBJS) 
 	# $(CXX) $(RUST_ARTIFACT) $(OBJS) -o $@ $(LDFLAGS)
-	gcc $(RUST_ARTIFACT) $(OBJS) -o $@ $(LDFLAGS)
+	gcc  $(OBJS) $(RUST_ARTIFACT) -o $@ $(LDFLAGS)
 
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
@@ -64,7 +67,7 @@ $(RUST_HEADER): $(RUST_SRC)
 
 $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
 	@mkdir -p $(BUILD_DIR)
-	@RUSTFLAGS="-Ctarget-cpu=$(TARGET)" cargo build --release --manifest-path $(RUST_TOML) --target-dir $(BUILD_DIR)
+	@RUSTFLAGS="-Ctarget-cpu=$(COMPILATION_TARGET)" cargo build --release --manifest-path $(RUST_TOML) --target-dir $(BUILD_DIR)
 
 .PHONY: rust.h
 rust.h: $(RUST_HEADER)
