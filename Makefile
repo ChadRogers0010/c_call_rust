@@ -10,8 +10,6 @@ SRC_DIRS  := ./src
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 
-
-
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -27,7 +25,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 # The -MMD and -MP flags together generate Makefiles for us!
 # These files will have .d instead of .o as the output.
-CPPFLAGS := $(INC_FLAGS) -MMD -MP -O3
+CPPFLAGS := $(INC_FLAGS) -MMD -MP -O3 -march=$(COMPILATION_TARGET)
 
 RUST_DIR := ./rust
 RUST_SRC := $(RUST_DIR)/src
@@ -50,20 +48,22 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(RUST_HEADER) $(RUST_ARTIFACT) $(OBJS)
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS)-c $< -o $@
 	@echo $@
 
 # Build step for C++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS)-c $< -o $@
 
 
+# Build step for Rust header
 $(RUST_HEADER): $(RUST_SRC)
 	@mkdir -p $(INCLUDE_DIR) $(BUILD_DIR)
-	@cargo test -q --manifest-path $(RUST_TOML) > build/test_rust.txt
-	@cbindgen -l c $(RUST_DIR) > $(RUST_HEADER)
+	@cargo test -q --manifest-path $(RUST_TOML) #> build/test_rust.txt
+	cbindgen -l c $(RUST_DIR) > $(RUST_HEADER)
 
+# Build step for Rust source
 $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
 	@mkdir -p $(BUILD_DIR)
 	@RUSTFLAGS="-Ctarget-cpu=$(COMPILATION_TARGET)" cargo build --release --manifest-path $(RUST_TOML) --target-dir $(BUILD_DIR)
