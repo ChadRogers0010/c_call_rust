@@ -1,4 +1,4 @@
-/// For a u32 number of fibonacci elements is 47
+/// For a u32 the of fibonacci elements is 47
 const fn fib_len() -> usize {
     let mut a = 0;
     let mut b = 1;
