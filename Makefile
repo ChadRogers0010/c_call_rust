@@ -6,8 +6,9 @@ TARGET_EXEC := program
 # Platform to compile for
 COMPILATION_TARGET := native
 
-BUILD_DIR := ./build
-SRC_DIRS  := ./src
+SRC_DIRS  	:= ./src
+BUILD_DIR 	:= ./build
+INCLUDE_DIR := ./include
 
 # Find all the C and C++ files we want to compile
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
