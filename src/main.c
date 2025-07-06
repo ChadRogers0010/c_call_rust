@@ -3,11 +3,11 @@
 int main(int argc, char *argv[]) {
   printf("Hello from the C main()!\n");
   hello_rust();
-  int idx = 7;
-  int fib = fib_get(7);
-  printf("fib_get(%d) -> %d\n", idx, fib);
+
+  printf("fib_get(%d) -> %d\n", 7, fib_get(7));
   for (int i = 0; i < 10; i++) {
     printf("fib %d: %d\n", i, FIB_TABLE[i]);
   }
+
   return 0;
 }
