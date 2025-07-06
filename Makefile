@@ -69,7 +69,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 $(RUST_HEADER): $(RUST_SRC)
 	@mkdir -p $(INCLUDE_DIR) $(BUILD_DIR)
 	cargo test -q $(RUST_FLAGS) --manifest-path $(RUST_TOML)
-	cbindgen -l c $(RUST_DIR) > $(RUST_HEADER)
+	cbindgen -l c $(RUST_DIR) -o $(RUST_HEADER)
 
 # Build step for Rust source
 $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
@@ -79,6 +79,7 @@ $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
 # Generate header for librust.a
 .PHONY: rust.h
 rust.h: $(RUST_HEADER)
+	cat $(RUST_HEADER)
 
 .PHONY: clean
 clean:
