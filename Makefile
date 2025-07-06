@@ -38,12 +38,12 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP -O3 -march=$(COMPILATION_TARGET)
 CC  := gcc
 CXX := g++
 
-RUST_DIR := ./rust
-RUST_SRC := $(RUST_DIR)/src
-RUST_TOML := $(RUST_DIR)/Cargo.toml
-RUST_HEADER := ./include/rust.h
+RUST_DIR      := ./rust
+RUST_SRC      := $(RUST_DIR)/src
+RUST_TOML     := $(RUST_DIR)/Cargo.toml
+RUST_HEADER   := $(INCLUDE_DIR)/rust.h
 RUST_ARTIFACT := $(BUILD_DIR)/release/librust.a
-RUST_FLAGS := --release
+RUST_FLAGS    := --release
 
 build: $(BUILD_DIR)/$(TARGET_EXEC) 
 
