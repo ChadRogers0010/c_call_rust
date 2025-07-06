@@ -79,7 +79,6 @@ $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
 # Generate header for librust.a
 .PHONY: rust.h
 rust.h: $(RUST_HEADER)
-	cat $(RUST_HEADER)
 
 .PHONY: clean
 clean:

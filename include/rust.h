@@ -4,36 +4,6 @@
 #include <stdlib.h>
 
 /**
- * An array of uint32_t fibonacci values
- * going from f(0) to f(46)
- */
-extern const uint32_t FIB_TABLE[47];
-
-/**
  * Prints a hello world with std::println!()
  */
 void hello_rust(void);
-
-/**
- * Reads a lookup table for the values
- * between 0 and 46. Going over 46 returns zero.
- */
-uint32_t fib_get(uint8_t n);
-
-/**
- * for i in 0..len {
- *     output[i] = lhs[i] + rhs[i];
- * }
- */
-void add_arrays(const int32_t *lhs, const int32_t *rhs, int32_t *output, uintptr_t len);
-
-/**
- * for i in 0..len {
- *     output[i] = func(lhs[i], rhs[i]);
- * }
- */
-void map_arrays(const int32_t *lhs,
-                const int32_t *rhs,
-                int32_t *output,
-                uintptr_t len,
-                int32_t (*func)(int32_t, int32_t));
