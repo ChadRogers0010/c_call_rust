@@ -39,7 +39,7 @@ pub const extern "C" fn fib_get(n: u8) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::{FIB_TABLE, fib_get};
+    use crate::{FIB_TABLE, fib_get, fib_len};
 
     #[test]
     fn fib_get_test() {
@@ -54,6 +54,6 @@ mod tests {
     fn fib_table_test() {
         assert!(FIB_TABLE[7] == 13);
 
-        assert!(FIB_TABLE.get(47).is_none());
+        assert!(FIB_TABLE.get(fib_len()).is_none());
     }
 }
