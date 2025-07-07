@@ -44,7 +44,9 @@ RUST_SRC      := $(RUST_DIR)/src
 RUST_TOML     := $(RUST_DIR)/Cargo.toml
 RUST_HEADER   := $(INCLUDE_DIR)/$(RUST_NAME).h
 RUST_ARTIFACT := $(BUILD_DIR)/release/lib$(RUST_NAME).a
-RUST_FLAGS    := --release
+
+RUSTC_FLAGS   := --crate-type=staticlib --manifest-path=$(RUST_TOML) --target-dir=$(BUILD_DIR) --release -- -C target-cpu=$(COMPILATION_TARGET)
+CARGO_FLAGS   :=  
 
 build: $(BUILD_DIR)/$(TARGET_EXEC) 
 
@@ -74,7 +76,7 @@ $(RUST_HEADER): $(RUST_SRC)
 # Build step for Rust source
 $(RUST_ARTIFACT): $(RUST_SRC) $(RUST_HEADER)
 	@mkdir -p $(BUILD_DIR)
-	RUSTFLAGS="-Ctarget-cpu=$(COMPILATION_TARGET)" cargo build $(RUST_FLAGS) --manifest-path $(RUST_TOML) --target-dir $(BUILD_DIR)
+	cargo rustc $(RUSTC_FLAGS) $(CARGO_FLAGS)
 
 # Generate header for librust.a
 .PHONY: rust.h
