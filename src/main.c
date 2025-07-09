@@ -1,8 +1,10 @@
+#include "../include/hello_c.h"
+#include "../include/hello_cpp.h"
 #include "../include/rust.h"
 #include <stdint.h>
-#include <stdio.h>
 int main(int argc, char *argv[]) {
-  printf("Hello from the C main()!\n");
+  hello_c();
+  hello_cpp();
   hello_rust();
 
   return 0;
