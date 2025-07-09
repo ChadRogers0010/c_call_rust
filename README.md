@@ -4,4 +4,4 @@ Make commands:
   - build  // Compiles the C/++ and Rust together 
   - run    // Compiles and runs the program
   - clean  // Deletes the program, temp files, and rust.h
-  - rust.h // generates the Rust header
+  - rust.h // Generates the Rust header
